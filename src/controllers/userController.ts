@@ -42,6 +42,33 @@ export class UserController{
             return handleError(error);
         }
     }
+    
+    async login(req: Request):Promise<PostPutResponse|ErrorResponse>{
+        try {
+
+            const where = {
+                email       : req.body.email,
+                password    : req.body.password,
+            }
+
+            const controller = new Controller();
+            const user = await controller.get(User, where);
+
+            if(user.length == 0){
+                throw new BadRequest('Credenciales incorrectas.');
+            }
+            
+            const response = {
+                user:user[0],
+                message:"Inicio de sesion exitoso.",
+                status: HTTP_STATUS.CREATED
+            }
+            return {response, status: HTTP_STATUS.OK}
+            
+        } catch (error) {
+            return handleError(error);
+        }
+    }
 
     async post(req: Request):Promise<PostPutResponse|ErrorResponse> {
         try {
@@ -63,7 +90,8 @@ export class UserController{
             const newUser = await controller.upsert(User, user) as User;
             const response = {
                 user:newUser,
-                message:"Usuario creado."
+                message:"Usuario creado.",
+                status: HTTP_STATUS.CREATED
             }
             return {response, status: HTTP_STATUS.CREATED}
 
@@ -87,7 +115,8 @@ export class UserController{
         
             const response = {
                 user:userUpdated,
-                message:"Usuario actualizado."
+                message:"Usuario actualizado.",
+                status: HTTP_STATUS.CREATED
             }
             return {response, status: HTTP_STATUS.CREATED}
 

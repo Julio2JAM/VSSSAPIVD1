@@ -9,6 +9,11 @@ router.get('/', async (req:Request, res:Response) => {
     res.status(response.status).json(response.response);
 });
 
+router.post('/login', async (req:Request, res:Response) => {
+    const response = await controller.login(req);
+    res.status(response.status).json(response.response);
+});
+
 router.post('/', async (req:Request, res:Response) => {
     const response = await controller.post(req);
     res.status(response.status).json(response.response);
