@@ -1,6 +1,6 @@
-// src/models/userEntity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Index, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Index, JoinColumn, CreateDateColumn } from 'typeorm';
 import { Role } from './roleModel';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 @Entity()
 export class User {
@@ -12,9 +12,15 @@ export class User {
   @Index("user_fk_1")
   role!: Role
 
-  @Column({ type: 'varchar', length: 60, nullable: false})
+  @IsNotEmpty({message:"Email necesario"})
+  @IsEmail()
+  @Column({ type: 'varchar', length: 60, nullable: false, unique:true})
   email!: string;
   
+  @IsNotEmpty({message:"Email necesario"})
   @Column({type: 'varchar', length: 80, nullable: false})
   password!: string
+
+  @CreateDateColumn({ type: 'timestamp' })
+  date!:Date
 }

@@ -10,8 +10,8 @@ export class Controller{
      * @param {Object} findData 
      * @returns {Promise<ObjectLiteral>} Returns the data of the entity stored in the database.
      */
-    async get(entity:EntityTarget<ObjectLiteral>, findData:Object = {where:{},relations:{}}): Promise<any>{
-        return await AppDataSource.manager.find(entity, findData);
+    async get(entity:EntityTarget<ObjectLiteral>, where:any = {}, relations:ObjectLiteral = {}, loadRelationIds:boolean = true): Promise<any>{
+        return await AppDataSource.manager.find(entity, {where, relations, loadRelationIds});
     }
 
     /**
@@ -31,7 +31,7 @@ export class Controller{
      * @param {DeepPartial<ObjectLiteral>} data - The data to be stored in the entity.
      * @returns {Promise<ObjectLiteral>} Returns the data of the entity stored in the database.
      */
-    async create(entity:EntityTarget<ObjectLiteral>, data:DeepPartial<ObjectLiteral>):Promise<ObjectLiteral>{
-        return await AppDataSource.manager.save(entity,data);
+    async upsert(entity:EntityTarget<ObjectLiteral>, data:DeepPartial<ObjectLiteral>):Promise<ObjectLiteral>{
+        return await AppDataSource.manager.save(entity, data);
     }
 }

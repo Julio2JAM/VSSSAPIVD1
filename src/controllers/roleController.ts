@@ -22,7 +22,7 @@ export class RoleController{
             }
 
             const controller = new Controller();
-            const role = await controller.get(Role, {where});
+            const role = await controller.get(Role, where);
 
             if(role.length == 0){
                 throw new NotFound('Roles not found');
