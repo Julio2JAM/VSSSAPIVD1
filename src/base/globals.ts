@@ -1,3 +1,6 @@
+import dotenv from 'dotenv'
+dotenv.config();
+
 export const HTTP_STATUS = {
     OK:200,
     CREATED:201,
@@ -13,3 +16,5 @@ export const HTTP_STATUS = {
 export const SERVER = {
     PORT:process.env.PORT || 3000
 }
+
+export const TOKEN_KEY = process.env.TOKEN_KEY;

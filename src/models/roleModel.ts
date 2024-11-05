@@ -13,7 +13,7 @@ export class Role{
 }
 
 export enum RoleType {
-    ADMIN = "ADMIN",
-    PROFESSOR = "PROFESSOR",
-    STUDENT = "STUDENT",
+    "ADMIN" = 1,
+    "PROFESSOR",
+    "STUDENT",
 }

@@ -4,6 +4,7 @@ import { Controller } from "../base/controller";
 import { HTTP_STATUS } from "../base/globals";
 import { BadRequest, ErrorResponse, handleError, NotFound } from "../base/errorHandle";
 import { User } from "../models/userModel";
+import { newToken } from "../libs/jwt";
 
 interface GetResponse{ 
     response: User[];
@@ -12,6 +13,15 @@ interface GetResponse{
 
 interface PostPutResponse{
     response: {
+        user:User,
+        message:string
+    }
+    status: number; 
+}
+
+interface loginResponse{
+    response: {
+        token:string
         user:User,
         message:string
     }
@@ -43,7 +53,7 @@ export class UserController{
         }
     }
     
-    async login(req: Request):Promise<PostPutResponse|ErrorResponse>{
+    async login(req: Request):Promise<loginResponse|ErrorResponse>{
         try {
 
             const where = {
@@ -58,7 +68,13 @@ export class UserController{
                 throw new BadRequest('Credenciales incorrectas.');
             }
             
+            const token = newToken(user[0]);
+            if(!token){
+                throw new BadRequest('Ha ocurrido un error inesperado al iniciar sesion.');
+            }
+
             const response = {
+                token:token,
                 user:user[0],
                 message:"Inicio de sesion exitoso.",
                 status: HTTP_STATUS.CREATED
