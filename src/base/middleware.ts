@@ -21,7 +21,6 @@ export class Middleware {
 
     };
 
-    
     checkProfessorRole(req: Request, res: Response, next: NextFunction) {
 
         const user = req.user;

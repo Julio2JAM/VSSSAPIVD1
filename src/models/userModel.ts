@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Index, JoinColumn, CreateDateColumn } from 'typeorm';
 import { Role } from './roleModel';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 
 @Entity()
 export class User {
@@ -17,9 +17,13 @@ export class User {
   @Column({ type: 'varchar', length: 60, nullable: false, unique:true})
   email!: string;
   
-  @IsNotEmpty({message:"Email necesario"})
+  @IsNotEmpty({message:"Contraseña necesaria"})
   @Column({type: 'varchar', length: 80, nullable: false})
   password!: string
+
+  @Column({type:"tinyint", nullable: false, default: 1})
+  @IsOptional()
+  id_status!: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   date!:Date
